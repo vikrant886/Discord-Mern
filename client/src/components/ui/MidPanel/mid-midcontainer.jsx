@@ -95,7 +95,9 @@ export default function Midcontainer() {
                         ) : (
                             <p>No friends found</p>
                         )} */}
-                        hello
+                        <div className="flex justify-center text-text-two">
+                            No Recent Chats
+                        </div>
                     </div>
 
                 </div>

@@ -37,11 +37,15 @@ module.exports.getservers = async (req, res) => {
 
         const extractedServers = await Promise.all(
             allservers.map(async (serverLink) => {
-                const serverDetails = await server.findOne({ servername: serverLink.servername });
-                return {
-                    servername: serverDetails.servername,
-                    serverimage: serverDetails.serverimage,
-                };
+                if (allservers.length > 0) {
+                    const serverDetails = await server.findOne({ servername: serverLink.servername });
+                    return {
+                        servername: serverDetails.servername,
+                        serverimage: serverDetails.serverimage,
+                    };
+                } else {
+                    return {}; 
+                }
             })
         );
 
@@ -52,8 +56,9 @@ module.exports.getservers = async (req, res) => {
     }
 };
 
+
 module.exports.createServerLink = async (req, res) => {
-    const {servername ,  username} = req.body
+    const { servername, username } = req.body
 
     try {
         const checkservername = await server.findOne({ servername });

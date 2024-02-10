@@ -9,7 +9,7 @@ export default function MessageField() {
     useEffect(() => {
 
     }, [])
-    function handleclick() {
+    function handlesubmit() {
         console.log("sent clicked")
         console.log("hello");
     }
@@ -26,7 +26,6 @@ export default function MessageField() {
                         </p>
                     </div>
                 ) : (
-                    // Render other content or leave empty
                     null
                 )}
 
@@ -39,7 +38,7 @@ export default function MessageField() {
                     placeholder="Type your message here"
                     style={{ outline: 'none' }}
                 />
-                <button className="ml-2" onClick={handleclick}>
+                <button className="ml-2" onClick={handlesubmit}>
                     <img
                         className="w-6 h-6"
                         src="https://cdn-icons-png.flaticon.com/512/3682/3682321.png"

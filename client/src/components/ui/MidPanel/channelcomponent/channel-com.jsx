@@ -45,7 +45,7 @@ export default function Channelcomponent({ ctype }) {
     return (
         <div className="h-1/2 w-full">
             <div className="w-full h-10 flex flex-row justify-between items-center p-4">
-                <p className="font-semibold text-xs text-text-one">VOICE-CHANNELS</p>
+                <p className="font-semibold text-xs text-text-one uppercase">{ctype}-CHANNELS</p>
                 <Plus
                     width={16}
                     className="text-text-one hover:text-text-two"
