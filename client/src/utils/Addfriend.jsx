@@ -33,7 +33,7 @@ export const acceptreqeust = (firstuser, seconduser) => {
 
 export const removefriend = (_id) => {
     return new Promise((resolve, reject) => {
-        axios.post(process.env.REACT_APP_HOST+"riend/removefriend", { _id })
+        axios.post(process.env.REACT_APP_HOST+"friend/removefriend", { _id })
             .then((res) => {
                 console.log("friend removed");
                 if (res.data.message === "removeed") {
