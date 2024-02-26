@@ -23,8 +23,8 @@ export default function Register() {
     };
 
     function register() {
-        console.log(process.REACT_APP_HOST);
-        axios.post(process.REACT_APP_HOST+'user/register', {
+        console.log(process.env.REACT_APP_HOST);
+        axios.post(process.env.REACT_APP_HOST+'user/register', {
             "username": username,
             "email": mail,
             "name": name,

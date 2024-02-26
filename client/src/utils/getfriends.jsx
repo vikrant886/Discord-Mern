@@ -5,7 +5,7 @@ export const getfriends = () => {
     const username=user.username;
     return new Promise((resolve, reject) => {
         console.log(username)
-        axios.post(process.REACT_APP_HOST+"friend/getfriend", { username })
+        axios.post(process.env.REACT_APP_HOST+"friend/getfriend", { username })
             .then((res) => {
                 resolve(res.data)
                 console.log(res);

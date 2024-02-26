@@ -4,7 +4,7 @@ import { socket } from "../components/socket";
 
 export const handleLogin = (username, pass) => {
     return new Promise((resolve, reject) => {
-        axios.post(process.REACT_APP_HOST+'user/login', {
+        axios.post(process.env.REACT_APP_HOST+'user/login', {
             "username": username,
             "password": pass,
         })
@@ -28,7 +28,7 @@ export const handleLogin = (username, pass) => {
 
 export const handleLogout = (username) => {
     console.log(username, "hi");
-    axios.post(process.REACT_APP_HOST+'user/logout', { username })
+    axios.post(process.env.REACT_APP_HOST+'user/logout', { username })
         .then((res) => {
             // console.log(res);
         })

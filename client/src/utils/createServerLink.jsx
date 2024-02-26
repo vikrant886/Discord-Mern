@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const createserverlink = (servername, username) => {
     return new Promise((resolve, reject) => {
-        axios.post(process.REACT_APP_HOST+"server/createlink", 
+        axios.post(process.env.REACT_APP_HOST+"server/createlink", 
             servername,
             username,
         )

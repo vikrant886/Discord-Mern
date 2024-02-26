@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const Addfriend = (firstname, secondname, firstimage, secondimage) => {
     return new Promise((resolve, reject) => {
-        axios.post(process.REACT_APP_HOST+"friend/addfriend", { firstname, secondname, firstimage, secondimage })
+        axios.post(process.env.REACT_APP_HOST+"friend/addfriend", { firstname, secondname, firstimage, secondimage })
             .then((res) => {
                 // console.log(res);
                 if (res.data.message === "already") {
@@ -21,7 +21,7 @@ export const Addfriend = (firstname, secondname, firstimage, secondimage) => {
 
 export const acceptreqeust = (firstuser, seconduser) => {
     console.log(firstuser, seconduser)
-    axios.post(process.REACT_APP_HOST+"friend/acceptrequest", { firstuser, seconduser })
+    axios.post(process.env.REACT_APP_HOST+"friend/acceptrequest", { firstuser, seconduser })
         .then((res) => {
             console.log(res);
         })
@@ -33,7 +33,7 @@ export const acceptreqeust = (firstuser, seconduser) => {
 
 export const removefriend = (_id) => {
     return new Promise((resolve, reject) => {
-        axios.post(process.REACT_APP_HOST+"riend/removefriend", { _id })
+        axios.post(process.env.REACT_APP_HOST+"riend/removefriend", { _id })
             .then((res) => {
                 console.log("friend removed");
                 if (res.data.message === "removeed") {
