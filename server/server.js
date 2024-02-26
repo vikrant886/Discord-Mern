@@ -24,7 +24,7 @@ app.get("/hello", (req, res) => {
 const server = http.createServer(app); // Create an HTTP server
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000', // Replace with the origin of your React app
+    origin: 'https://discord-mern.vercel.app/', // Replace with the origin of your React app
     methods: ['GET', 'POST'],
   },
 });
