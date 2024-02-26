@@ -5,7 +5,7 @@ import { Homecontext } from "../components/context/homecontext";
 
 
 export const getuserdata = (username,setUserdata) => {
-    axios.post('http://localhost:8080/user/userdata', {
+    axios.post(process.REACT_APP_HOST+'user/userdata', {
         "username": username,
     })
         .then((res) => {

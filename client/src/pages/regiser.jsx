@@ -23,7 +23,7 @@ export default function Register() {
     };
 
     function register() {
-        axios.post('http://localhost:8080/user/register', {
+        axios.post(process.REACT_APP_HOST+'user/register', {
             "username": username,
             "email": mail,
             "name": name,

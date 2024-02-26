@@ -3,7 +3,8 @@ import axios from "axios";
 
 export const Finduser = (username) => {
     return new Promise((resolve, reject) => {
-        axios.post("http://localhost:8080/user/finduser", { username })
+        console.log("hi",process.REACT_APP_HOST);
+        axios.post(process.REACT_APP_HOST+"user/finduser", { username })
             .then((res) => {
                 resolve(res.data);
             })

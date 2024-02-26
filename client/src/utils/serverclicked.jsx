@@ -4,7 +4,7 @@ import { Homecontext } from "../components/context/homecontext";
 
 export const serverclicked = async (servername) => {
     return new Promise((resolve, reject) => {
-        axios.post("http://localhost:8080/channel/getchannels", { servername })
+        axios.post(process.REACT_APP_HOST+"channel/getchannels", { servername })
             .then((res) => {
                 // console.log(res);
                 resolve(res.data.result)

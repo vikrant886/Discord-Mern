@@ -4,7 +4,7 @@ import axios from "axios";
 export const addServer = (servername, image) => {
     const user = JSON.parse(sessionStorage.getItem("userinfo"));
     return new Promise((resolve, reject) => {
-        axios.post("http://localhost:8080/server/addserver", {
+        axios.post(process.REACT_APP_HOST+"erver/addserver", {
             user,
             "servername": servername,
             "serverimage": image,

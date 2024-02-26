@@ -4,7 +4,7 @@ import axios from "axios";
 export const addchannel = (server,channelname ,type) => {
     return new Promise((resolve, reject) => {
 
-        axios.post("http://localhost:8080/channel/addchannel", {
+        axios.post(process.REACT_APP_HOST+"channel/addchannel", {
             server,
             type,
         })
