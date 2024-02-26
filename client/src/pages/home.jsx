@@ -15,7 +15,7 @@ export default function Home() {
     const [homeclicked, setHomeclicked] = useState(true);
     const [searcheduser, setSearcheduser] = useState(null);
     const [allchannels, setAllchannels] = useState([]);
-    const [currentchannel, setCurrentchannel] = useState([]);
+    // const [currentchannel, setCurrentchannel] = useState([]);
     const [channelselected, setChannelselected] = useState(null);
     const [friends, setFriends] = useState({ firstres: [], secondres: [] });
     const [addfriend, setAddfriend] = useState(false);

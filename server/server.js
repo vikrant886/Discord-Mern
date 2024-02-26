@@ -38,9 +38,12 @@ const server_user = new Map();
 io.on("connection", (socket) => {
   console.log("user connected", socket.id);
 
-  socket.on("joinchannel", (data) => {
-    socket.join(data)
-  })
+  // socket.on("joinchannel", (data) => {
+  //   const {channelid} =data;
+  //   console.log(channelid);
+  //   socket.join(channelid)
+  //   socket.to(channelid).emit("newuser","new");
+  // })
 
   socket.on("addfriend", (data) => {
     friendreqmap.set(data.searcheduser, data);

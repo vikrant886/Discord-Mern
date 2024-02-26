@@ -4,6 +4,7 @@ import CreateChannelModal from "../../../ChannelModal/channel-modal";
 import { Homecontext } from "../../../context/homecontext";
 import { serverclicked } from "../../../../utils/serverclicked";
 import { socket } from "../../../socket";
+import { joinchannel } from "../../../../utils/joinchannels";
 
 export default function Channelcomponent({ ctype }) {
     const { serverdata } = useContext(Homecontext);
@@ -11,11 +12,17 @@ export default function Channelcomponent({ ctype }) {
     const {allchannels,setAllchannels} = useContext(Homecontext)
     const {channelselected , setChannelselected} = useContext(Homecontext)
 
+    socket.on("newuser",(data)=>{
+        // alert(data);
+        console.log(data);
+    })
+
     function addchannel(channel) { 
         setModalactive(true);
     }
 
     function channelclicked(channel){
+        console.log(channel)
         setChannelselected(channel)
     }
 
@@ -37,7 +44,6 @@ export default function Channelcomponent({ ctype }) {
         allchannels.map((channel,index)=>{
             if(channel.channelname==="general"){
                 channelclicked(channel)
-                socket.emit("joinchannel",channel._id)
             }
         })
     },[allchannels])

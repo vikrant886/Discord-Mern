@@ -30,8 +30,6 @@ module.exports.addfriend = async (req, res) => {
 module.exports.getfriend = async (req, res) => {
     try {
         const { username } = req.body;
-
-        console.log(username, "getfriend");
         const firstres = await friends.find({ status: true });
         const secondres = await friends.find({ status: false });
         // console.log(firstres,secondres)
@@ -73,7 +71,6 @@ module.exports.acceptrequest = async (req, res) => {
 module.exports.removefriend = async (req, res) => {
     try {
         const { _id } = req.body
-        console.log(_id)
         const result = await friends.findByIdAndDelete(_id)
         if (result) {
             res.json({ message: "removeed", result })
