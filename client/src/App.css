@@ -43,3 +43,7 @@
 .hovered-plus{
   color: #29a559;
 }
+
+::-webkit-scrollbar{
+  display: none;
+}

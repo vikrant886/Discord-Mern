@@ -24,7 +24,7 @@ app.get("/hello", (req, res) => {
 const server = http.createServer(app); // Create an HTTP server
 const io = socketIo(server, {
   cors: {
-    origin: 'https://discord-mern.vercel.app', // Replace with the origin of your React app
+    origin: 'http://localhost:3000', // Replace with the origin of your React app
     methods: ['GET', 'POST'],
   },
 });
@@ -87,6 +87,9 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("message",(data)=>{
+    console.log(data);
+  })
 
   socket.on("login", (data) => {
     onlineusersmap.set(data.username, data);

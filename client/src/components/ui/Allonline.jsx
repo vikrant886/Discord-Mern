@@ -39,7 +39,7 @@ const Allonline = () => {
                                 user.username !== userdata.username ? (
                                     <div key={index} className='hover:bg-white hover:bg-opacity-5 gap-8 text-text-one hover:text-text-two  h-4 w-[80%] flex items-center p-8 rounded-lg'>
                                         <img src={user.image} className='w-12 h-12 rounded-full' alt="" />
-                                        {user.username}
+                                        <div className='font-bold capitalize'>{user.username}</div>
                                     </div>
                                 ) : null
                             ))}
@@ -47,7 +47,9 @@ const Allonline = () => {
 
 
                     </div>
-                    <div className='w-1/3'>hello world</div>
+                    <div className='w-1/3 border-l border-text-three'>
+                        
+                    </div>
                 </div>
             ) :
                 (

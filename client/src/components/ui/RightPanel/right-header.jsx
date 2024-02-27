@@ -5,7 +5,7 @@ import { Bell, Inbox } from "lucide-react";
 import { acceptreqeust } from "../../../utils/Addfriend";
 import { socket } from "../../socket";
 
-export default function Rightheader({ setAddfriendclicked, setShowallfriends, setAllonline, setPending }) {
+export default function Rightheader({ setAddfriendclicked, setShowallfriends, setAllonline, setPending , setMessagefriend}) {
     const { friendsectionselected, friends ,userdata ,channelselected } = useContext(Homecontext)
     const [notification, setNotification] = useState(false);
     const [filtered, setFiltered] = useState([]);
@@ -28,7 +28,7 @@ export default function Rightheader({ setAddfriendclicked, setShowallfriends, se
     },[socket])
 
     return (
-        <div className="h-12 w-full  bg-third shadow-md z-40">
+        <div className="h-12 w-full p-4  bg-third shadow-md z-40">
             {friendsectionselected ? (
                 <div className="flex flex-row w-full h-full items-center justify-left gap-4 pr-4 z-10">
                     <div className="flex flex-row pl-4 h-full justify-center items-center gap-2">
@@ -36,9 +36,9 @@ export default function Rightheader({ setAddfriendclicked, setShowallfriends, se
                         <p className="text-text-two">Friends</p>
                         <div className=" border border-solid border-text-three rounded-lg h-60 "></div>
                     </div>
-                    <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(true); setShowallfriends(false); setAddfriendclicked(false); setPending(false) }}>Online</button>
-                    <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(false); setShowallfriends(true); setAddfriendclicked(false); setPending(false) }}>All</button>
-                    <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(false); setShowallfriends(false); setAddfriendclicked(false); setPending(true) }}>Pending</button>
+                    <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(true); setShowallfriends(false); setAddfriendclicked(false); setPending(false); setMessagefriend(false)}}>Online</button>
+                    <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(false); setShowallfriends(true); setAddfriendclicked(false); setPending(false); setMessagefriend(false) }}>All</button>
+                    <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(false); setShowallfriends(false); setAddfriendclicked(false); setPending(true); setMessagefriend(false) }}>Pending</button>
                     <button className="w-24 bg-red-900 rounded-md pl-2 pr-2 text-text-two " onClick={() => { setAddfriendclicked(true); setShowallfriends(false); setAllonline(false) }}>Add friend</button>
                     <Bell className="flex ml-auto text-text-one hover:text-text-two " onClick={() => { notification ? setNotification(false) : setNotification(true) }} />
                     {

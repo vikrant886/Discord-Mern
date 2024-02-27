@@ -1,6 +1,7 @@
 // eslint-disable-next-line
 
 import React, { useState } from "react";
+import Resizer from 'react-image-file-resizer';
 
 export default function ImageContainer({onImagechange}) {
     const [image,setImage]= useState()
@@ -8,13 +9,21 @@ export default function ImageContainer({onImagechange}) {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         console.log(file);
-        if (file) { //converting image to base64
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                setImage(event.target.result);
-                onImagechange(event.target.result)
-            };
-            reader.readAsDataURL(file);
+        if (file) {
+            Resizer.imageFileResizer(
+                file,
+                300, // Max width
+                300, // Max height
+                'JPEG', // Compression format
+                0,  // Quality
+                0,   // Rotation
+                (uri) => {
+                    // uri is the base64 data of the resized image
+                    setImage(uri); 
+                    onImagechange(uri);
+                },
+                'base64' 
+            );
         } else {
             setImage(null);
         }

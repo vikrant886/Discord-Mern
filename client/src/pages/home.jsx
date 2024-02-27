@@ -25,7 +25,8 @@ export default function Home() {
     const [allonline, setAllonline] = useState(true)
     const [showallfriends, setShowallfriends] = useState(false);
     const [onlinefriends, setOnlinefriends] = useState(null);
-    
+    const [chatwith, setChatwith] = useState(null);
+    const [messagefriend, setMessagefriend] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,6 +64,10 @@ export default function Home() {
                 <div className="flex row-auto h-screen w-screen overflow-hidden">
                     <Homecontext.Provider
                         value={{
+                            messagefriend,
+                            setMessagefriend,
+                            chatwith,
+                            setChatwith,
                             userdata,
                             setUserdata,
                             serverdata,

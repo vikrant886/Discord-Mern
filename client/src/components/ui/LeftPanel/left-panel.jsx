@@ -19,13 +19,14 @@ export default function LeftPanel() {
     const { homeclicked, setHomeclicked } = useContext(Homecontext)
     const { searcheduser, setSearcheduser } = useContext(Homecontext)
     const { friends, setFriends } = useContext(Homecontext)
-    const { friendsectionselected, setFriendsectionselected, setAllonline, setShowallfriends } = useContext(Homecontext)
+    const { friendsectionselected, setFriendsectionselected, setAllonline, setShowallfriends , messagefriend ,setMessagefriend } = useContext(Homecontext)
     const [friendchange, setFriendchange] = useState(false);
     const [modaltype , setModaltype] = useState("");
 
     const navigate = useNavigate()
 
     function buttonclicked(server) {
+        setMessagefriend(false);
         setHomeclicked(false);
         setServerdata(server)
         setFriendsectionselected(false);
