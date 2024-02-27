@@ -7,6 +7,7 @@ import { getservers } from "../utils/getservers";
 import { getfriends } from "../utils/getfriends";
 import Loading from "./loading";
 import { getstatus } from "../utils/onlinestatus";
+import { socket } from "../components/socket";
 
 export default function Home() {
     const [userdata, setUserdata] = useState("");
@@ -34,6 +35,7 @@ export default function Home() {
                 const user = JSON.parse(sessionStorage.getItem("userinfo"));
                 console.log(user);
                 setUserdata(user);
+                socket.emit("registeronsocket",user)
 
                 const fetchedservers = await getservers();
                 console.log(fetchedservers);

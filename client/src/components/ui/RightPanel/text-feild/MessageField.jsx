@@ -4,7 +4,7 @@ import { Homecontext } from "../../../context/homecontext";
 import { socket } from "../../../socket";
 
 export default function MessageField({ type }) {
-    const { channelselected, serverdata, userdata , chatwith} = useContext(Homecontext)
+    const { channelselected, serverdata, userdata, chatwith } = useContext(Homecontext)
     const [message, setMessage] = useState([]);
     const [val, setVal] = useState('');
     const inputref = useRef();
@@ -19,13 +19,23 @@ export default function MessageField({ type }) {
         }
     };
 
+    useEffect(() => {
+        socket.on("rec_message", (data) => {
+            console.log("gotdata", data);
+            setMessage(prevMessages => [...prevMessages, data]);
+        });
+        return () => {
+            socket.off("rec_message");
+        };
+    }, []);
+
     function handlesubmit() {
         const time = new Date();
         const t = time.toLocaleTimeString()
         const date = time.toLocaleDateString()
         console.log(val);
-        console.log("hi",userdata)
-        socket.emit("message", { type: type, val: val, from: userdata.username , image:userdata.image , to:userdata.username===chatwith.firstuser?chatwith.seconduser:chatwith.firstuser});
+        console.log("hi", userdata)
+        socket.emit("message", { type: type, val: val, from: userdata.username, image: userdata.image, to: userdata.username === chatwith.firstuser ? chatwith.seconduser : chatwith.firstuser , time:t ,date: date });
         setMessage(prevMessages => [...prevMessages, { val, username: userdata.username, image: userdata.image, time: t, date: date }]);
         setVal("");
     }
@@ -42,7 +52,7 @@ export default function MessageField({ type }) {
                         </p>
                     </div>
                 ) : (
-                    <div className="w-full h-full pt-28 p-2 flex flex-col gap-2 overflow-scroll">
+                    <div className="w-full h-full pt-28 p-2 flex flex-col gap-4 overflow-scroll">
                         {message.map((data, index) => (
                             <div className="flex flex-row gap-2">
                                 <div className="flex ">

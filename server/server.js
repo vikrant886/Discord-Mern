@@ -88,7 +88,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("message",(data)=>{
-    console.log(data);
+    console.log("got message and sending ");
+    console.log(allusers.get(data.to))
+    socket.to(allusers.get(data.to)).emit("rec_message",data);
   })
 
   socket.on("login", (data) => {
@@ -96,6 +98,11 @@ io.on("connection", (socket) => {
     allusers.set(data.username, socket.id)
     // console.log(onlineusersmap)
     io.emit('allonlineuser', Array.from(onlineusersmap.values()));
+  })
+
+  socket.on("registeronsocket",(data)=>{
+    console.log("user registered on socket")
+    allusers.set(data.username,socket.id)
   })
 
   socket.on("fecthalluser", (data) => {

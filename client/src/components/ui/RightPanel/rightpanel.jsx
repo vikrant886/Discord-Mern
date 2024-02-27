@@ -25,10 +25,18 @@ export default function RightPanel() {
         setFirstres(friends.firstres)
         console.log("change in friends")
 
+        
+    }, [friends]);
+
+    useEffect(()=>{
         socket.on("reqaccepted", (data) => {
             fetchfriends()
         })
-    }, [friends]);
+
+        return () => {
+            socket.off("reqaccepted");
+        };
+    },[])
 
     const remfriend = async (friend) => {
         console.log(friend, "remove friend")
