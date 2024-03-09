@@ -18,6 +18,7 @@ export default function RightPanel() {
     const secondres = friends.secondres;
     const [pendingfriends, setPendingfriends] = useState(null);
     console.log(chatwith);
+    
 
     useEffect(() => {
         setPendingfriends(secondres.filter(user => user.firstuser === userdata.username))
@@ -81,7 +82,9 @@ export default function RightPanel() {
                                                 <div className="font-bold capitalize flex items-center">{friend.seconduser === userdata.username ? friend.firstuser : friend.seconduser}</div>
                                             </div>
                                             <div className="flex ml-auto gap-8">
-                                                <MessageSquareText className="ml-auto" onClick={() => { setChatwith(friend); setMessagefriend(true); }} />
+                                                <MessageSquareText className="ml-auto" 
+                                                onClick={() => { setChatwith({user:userdata.username===friend.firstuser?friend.seconduser:friend.firstuser , image: friend.seconduser === userdata.username ? friend.firstimage : friend.secondimage}); setMessagefriend(true); }} 
+                                                />
                                                 <Video className="ml-auto" />
                                                 <X className="ml-auto" onClick={() => remfriend(friend)} />
                                             </div>

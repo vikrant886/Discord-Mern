@@ -89,6 +89,7 @@ io.on("connection", (socket) => {
 
   socket.on("message",(data)=>{
     console.log("got message and sending ");
+    console.log(data)
     console.log(allusers.get(data.to))
     socket.to(allusers.get(data.to)).emit("rec_message",data);
   })
@@ -109,6 +110,15 @@ io.on("connection", (socket) => {
     io.emit('allonlineuser', Array.from(onlineusersmap.values()));
   })
 
+  socket.on("chessreqcreated",(data)=>{
+    console.log("chessreq created and sent")
+    socket.to(allusers.get(data.user)).emit("chessreq",data);
+  })
+
+  socket.on("chessreqacc",(data)=>{
+    console.log(data.from)
+    socket.to(allusers.get(data.from)).emit("chessacc",data);
+  })
 });
 mongoose
   .connect(process.env.DATABASE_URL)

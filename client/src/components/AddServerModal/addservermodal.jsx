@@ -17,7 +17,7 @@ export default function Addservermodal({ onClose, createown }) {
     }
     return (
         <div ref={modalref} onClick={closeModal} className="fixed inset-0 bg-black  bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50 " >
-            <div className="flex w-30 h-90 bg-third flex-col rounded-md" >
+            <div className="flex w-30 h-[40%] bg-third flex-col rounded-md" >
                 <div className="flex h-10 w-full text-homegreen font-bold text-xl items-center relative left-0">
                     <p className="m-auto translate-x-1/2 translate-y-1/2">ADD A SERVER</p>
                     <X color="#FFFFFF" onClick={onClose} className="ml-auto cursor-pointer relative right-4" />

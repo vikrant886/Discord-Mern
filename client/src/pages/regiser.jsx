@@ -50,7 +50,7 @@ export default function Register() {
                 backgroundImage: `url(${require("../images/OIG.jpeg")})`,
             }}
         >
-            <div className="h-95 bg-third w-63 flex flex-col rounded-md ">
+            <div className="h-[80%] bg-third w-63 flex flex-col rounded-md ">
                 <div className="w-full h-16 p-4 flex justify-center items-center">
                     <h1 className="text-white font-bold text-2xl">Create an Account</h1>
 

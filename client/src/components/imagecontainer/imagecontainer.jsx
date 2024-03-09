@@ -1,11 +1,13 @@
 // eslint-disable-next-line
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Resizer from 'react-image-file-resizer';
 
-export default function ImageContainer({onImagechange}) {
+export default function ImageContainer({currimage}) {
     const [image,setImage]= useState()
-
+    useEffect(()=>{
+        setImage(currimage)
+    },[])
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         console.log(file);
@@ -18,9 +20,7 @@ export default function ImageContainer({onImagechange}) {
                 0,  // Quality
                 0,   // Rotation
                 (uri) => {
-                    // uri is the base64 data of the resized image
                     setImage(uri); 
-                    onImagechange(uri);
                 },
                 'base64' 
             );
@@ -43,7 +43,7 @@ export default function ImageContainer({onImagechange}) {
                     <img
                         src={image}
                         alt="Uploaded Image"
-                        style={{ maxWidth: '100%', maxHeight: '100%' }}
+                        className="bg-white object-contain"
                     />
                 ) : (
                     <></>
