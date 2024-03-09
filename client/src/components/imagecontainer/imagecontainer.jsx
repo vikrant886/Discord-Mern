@@ -1,10 +1,12 @@
 // eslint-disable-next-line
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Resizer from 'react-image-file-resizer';
+import { Homecontext } from "../context/homecontext";
 
 export default function ImageContainer({currimage}) {
     const [image,setImage]= useState()
+    const {userdata, setUserdata} = useContext(Homecontext)
     useEffect(()=>{
         setImage(currimage)
     },[])
