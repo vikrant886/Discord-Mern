@@ -18,6 +18,7 @@ export default function Createownserver({ modaltype, createclose }) {
 
     async function create() {
         try {
+            console.log(image)
             const result = await addServer(servername, image);
             console.log(result);
 
@@ -48,7 +49,7 @@ export default function Createownserver({ modaltype, createclose }) {
                                 <p className="m-auto translate-x-1/3 translate-y-1/2">CREATE YOUR SERVER</p>
                                 <X color="#FFFFFF" onClick={close} className="ml-auto cursor-pointer relative right-4" />
                             </div>
-                            <ImageContainer onImagechange={(e) => setImage(e)} />
+                            <ImageContainer  setImage={setImage}/>
                             <div className="flex justify-center flex-col w-85">
                                 <p className="flex flex-row text-text-three font-bold text-0.8r text-left">Server Name<p className="text-red-500 font-light"> *</p></p>
                                 <input type="text" className="p-0.8 w-full rounded-sm text-xs bg-first text-text-three " placeholder="Enter Server Name" style={{ outline: 'none' }} onChange={(e) => setServername(e.target.value)} />

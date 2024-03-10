@@ -21,7 +21,7 @@ export default function EditAvatar({ image, setEditmodal }) {
             <div className="flex w-[40%] h-[50%] bg-third flex-col rounded-md p-4" >
                 <X className="text-text-two" onClick={() => { setEditmodal(false) }} />
                 <div className="w-full h-full flex justify-center flex-col items-center">
-                    <ImageContainer currimage={image} />
+                    <ImageContainer currimage={image} setImage={null} />
                     <div className="w-85 h-full flex gap-3 flex-col ">
                         <p className="flex flex-row text-text-three text-0.8r font-bold">USERNAME<p className="text-red-500 font-light"> *</p></p>
                         {

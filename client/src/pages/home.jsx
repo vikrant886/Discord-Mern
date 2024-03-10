@@ -26,7 +26,7 @@ export default function Home() {
     const [allonline, setAllonline] = useState(true)
     const [showallfriends, setShowallfriends] = useState(false);
     const [onlinefriends, setOnlinefriends] = useState(null);
-    const [chatwith, setChatwith] = useState(null);
+    const [chatwith, setChatwith] = useState({user:"general",image:null});
     const [messagefriend, setMessagefriend] = useState(false);
     const [message, setMessage] = useState([]);
 
@@ -58,43 +58,6 @@ export default function Home() {
         fetchData();
     }, [createownserver]);
 
-
-    useEffect(() => {
-        socket.on("rec_message", (data) => {
-            // alert("hi")
-            console.log("gotdata", data);
-            setMessage(prevmessages => {
-                const prev = [...prevmessages];
-                const userindex = prev.findIndex(msg => Object.keys(msg)[0] === data.username);
-                if (userindex !== -1) {
-                    // prev[userindex].val.push(val);
-                    prev[userindex][data.username].push({
-                        val: data.val,
-                        username: data.username,
-                        image: data.image,
-                        time: data.t,
-                        date: data.date
-                    })
-                } else {
-                    // console.log("hi")
-                    prev.push({
-                        [data.username]: [{
-                            val: data.val,
-                            username: data.username,
-                            image: data.image,
-                            time: data.t,
-                            date: data.date
-                        }]
-                    });
-                }
-
-                return prev;
-            });
-        });
-        return () => {
-            socket.off("rec_message");
-        };
-    }, []);
 
 
     return (

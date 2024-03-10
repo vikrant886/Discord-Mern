@@ -4,12 +4,12 @@ import React, { useContext, useEffect, useState } from "react";
 import Resizer from 'react-image-file-resizer';
 import { Homecontext } from "../context/homecontext";
 
-export default function ImageContainer({currimage}) {
-    const [image,setImage]= useState()
-    const {userdata, setUserdata} = useContext(Homecontext)
+export default function ImageContainer({currimage,setImage}) {
+    const [temp,setTemp]= useState()
     useEffect(()=>{
-        setImage(currimage)
+        setTemp(currimage)
     },[])
+    const {userdata, setUserdata} = useContext(Homecontext)
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         console.log(file);
@@ -22,7 +22,10 @@ export default function ImageContainer({currimage}) {
                 0,  // Quality
                 0,   // Rotation
                 (uri) => {
-                    setImage(uri); 
+                    setTemp(uri)
+                    if(setImage!=null){
+                        setImage(uri); 
+                    }
                 },
                 'base64' 
             );
@@ -41,9 +44,9 @@ export default function ImageContainer({currimage}) {
                 onClick={triggerFileInput}
                 className="w-20 h-20 rounded-full flex justify-center items-center  bg-second overflow-hidden hover:w-24 hover:h-24 hover:duration-500 duration-300"
             >
-                {image ? (
+                {temp ? (
                     <img
-                        src={image}
+                        src={temp}
                         alt="Uploaded Image"
                         className="bg-white object-contain"
                     />

@@ -34,6 +34,7 @@ const friendreqmap = new Map();
 const allusers = new Map()
 const servermap = new Map()
 const server_user = new Map();
+const pmessage = new Map()
 
 io.on("connection", (socket) => {
   console.log("user connected", socket.id);
@@ -89,9 +90,42 @@ io.on("connection", (socket) => {
 
   socket.on("message",(data)=>{
     console.log("got message and sending ");
-    console.log(data)
+    // console.log(data)
+    const sender = data.username
+    const receiver = data.to
+
+    if (!pmessage.has(sender)) {
+      pmessage.set(sender, {});
+    }
+    if (!pmessage.has(receiver)) {
+      pmessage.set(receiver, {});
+    }
+    if (!pmessage.get(sender)[receiver]) {
+      pmessage.get(sender)[receiver] = [];
+    }
+    if (!pmessage.get(receiver)[sender]) {
+      pmessage.get(receiver)[sender] = [];
+    }
+    pmessage.get(receiver)[sender].push(data);
+    pmessage.get(sender)[receiver].push(data);
+    // console.log(pmessage.get(sender)[receiver])
     console.log(allusers.get(data.to))
-    socket.to(allusers.get(data.to)).emit("rec_message",data);
+    socket.to(allusers.get(data.to)).emit("rec_message",pmessage.get(sender)[receiver]);
+  })
+
+  socket.on("getmessage",({sender,receiver})=>{
+    console.log(sender,receiver)
+    console.log("got mess req , fetching messages")
+    let message;
+    if(pmessage.get(sender)){
+      message=pmessage.get(sender)[receiver]
+    }
+    else{
+      message=[]
+    }
+    // console.log(message)
+    console.log(allusers.get(sender))
+    io.to(allusers.get(sender)).emit("message",message)
   })
 
   socket.on("login", (data) => {
