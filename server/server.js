@@ -110,7 +110,7 @@ io.on("connection", (socket) => {
     pmessage.get(sender)[receiver].push(data);
     // console.log(pmessage.get(sender)[receiver])
     console.log(allusers.get(data.to))
-    socket.to(allusers.get(data.to)).emit("rec_message",pmessage.get(sender)[receiver]);
+    socket.to(allusers.get(data.to)).emit("rec_message",data);
   })
 
   socket.on("getmessage",({sender,receiver})=>{

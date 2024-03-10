@@ -11,8 +11,17 @@ export default function MessageField({ type }) {
     const inputref = useRef();
 
     useEffect(() => {
-        socket.on("rec_message",(data)=>{
-            setMessage(data)
+        socket.on("rec_message",(data)=>{  // recieving message from other friend and upating state
+            setMessage(prevMessages => {
+                const newMessage = {
+                    val: data.val,
+                    username: data.username,
+                    image: data.image,
+                    time: data.t,
+                    date: data.date
+                };
+                return [...prevMessages, newMessage];
+            });
         })
         socket.on("message", (data) => {
             setMessage(data)
@@ -52,8 +61,6 @@ export default function MessageField({ type }) {
                 time: t,
                 date: date
             };
-        
-            // Create a new array by spreading the previous messages and appending the new message
             return [...prevMessages, newMessage];
         });
         
