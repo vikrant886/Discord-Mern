@@ -91,7 +91,7 @@ export default function RightPanel() {
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="bg-white w-full h-full">no friend</div>
+                                    <div className="w-full h-full text-text-two text-xl capitalize text-center p-8">no friends</div>
                                 )}
                             </div>
                         </div>
