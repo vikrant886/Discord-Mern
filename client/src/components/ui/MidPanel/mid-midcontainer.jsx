@@ -14,43 +14,43 @@ export default function Midcontainer() {
         setModalactive(true);
     }
 
-    const addfriendclicked = async () => {
-        console.log("clicked")
-        try{
-            const result = await Addfriend(userdata.username, searcheduser.user.username, userdata.image, searcheduser.user.image)
-            if(result){
-                socket.emit("addfriend", {
-                    searcheduser: searcheduser.user.username,
-                    userdata: userdata.username,
-                    secondimage: searcheduser.user.image,
-                    firstimage: userdata.image
-                });
-                setFriends((prevFriends) => ({
-                            ...prevFriends,
-                            secondres: [...prevFriends.secondres, result],
-                        }));
-                console.log(friends,"byeeee")
+    // const addfriendclicked = async () => {
+    //     console.log("clicked")
+    //     try{
+    //         const result = await Addfriend(userdata.username, searcheduser.user.username, userdata.image, searcheduser.user.image)
+    //         if(result){
+    //             socket.emit("addfriend", {
+    //                 searcheduser: searcheduser.user.username,
+    //                 userdata: userdata.username,
+    //                 secondimage: searcheduser.user.image,
+    //                 firstimage: userdata.image
+    //             });
+    //             setFriends((prevFriends) => ({
+    //                         ...prevFriends,
+    //                         secondres: [...prevFriends.secondres, result],
+    //                     }));
+    //             console.log(friends,"byeeee")
                 
-            }
-            else {console.log("already friends")}
-        }  
-        catch{
-            console("error adding friend");
-        }
-        setAddfriend(true);
-        // 
-        // if (!result) {
-        //     console.log("already friends")
-        // }
-        // else {
-        //     console.log(result)
-        //     setFriends((prevFriends) => ({
-        //         ...prevFriends,
-        //         firstres: [...prevFriends.firstres, result],
-        //     }));
-        //     console.log(friends)
-        // }
-    }
+    //         }
+    //         else {console.log("already friends")}
+    //     }  
+    //     catch{
+    //         console("error adding friend");
+    //     }
+    //     setAddfriend(true);
+    //     // 
+    //     // if (!result) {
+    //     //     console.log("already friends")
+    //     // }
+    //     // else {
+    //     //     console.log(result)
+    //     //     setFriends((prevFriends) => ({
+    //     //         ...prevFriends,
+    //     //         firstres: [...prevFriends.firstres, result],
+    //     //     }));
+    //     //     console.log(friends)
+    //     // }
+    // }
     function friendsecclicked() {
         setFriendsectionselected(true)
 
@@ -63,7 +63,7 @@ export default function Midcontainer() {
             </div>
         ) : (
             <div className="h-full">
-                <div className="flex justify-center ">
+                {/* <div className="flex justify-center ">
                     {searcheduser
                         ? (searcheduser.message === "user found"
                             ? (
@@ -77,7 +77,7 @@ export default function Midcontainer() {
                             )
                             : "User not found")
                         : null}
-                </div>
+                </div> */}
                 <div className="h-full">
                     <div className="w-95 flex flex-row hover:bg-white hover:bg-opacity-5 hover:text-text-two text-text-one p-2 rounded-md relative left-2 gap-4" onClick={friendsecclicked}>
                         <UserRound />

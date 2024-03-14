@@ -84,7 +84,7 @@ export default function MessageField({ type }) {
                         {message && message.map((data, index) => (
                             <div className="flex flex-row gap-2">
                                 <div className="flex ">
-                                    <img src={data.image ? data.image : ""} className="rounded-full w-[40px] h-[40px]" alt="" />
+                                    <img src={data.image ? data.image : require('../../../../images/Avatar/1.png')} className="rounded-full w-[40px] h-[40px]" alt="" />
                                 </div>
                                 <div className="text-white" key={index}>
                                     <div className="text-sm text-text-three flex flex-row gap-2 items-center">

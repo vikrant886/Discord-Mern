@@ -3,13 +3,15 @@ import Rightheader from "./right-header";
 import MessageField from "./text-feild/MessageField";
 import { Homecontext } from "../../context/homecontext";
 import Allonline from "../Allonline";
-import { Search, X, MessageSquareText, Video } from "lucide-react";
+import { Search, X, MessageSquareText, Video, Plus } from "lucide-react";
 import { socket } from "../../socket";
 import { getfriends } from "../../../utils/getfriends";
 import { removefriend } from "../../../utils/Addfriend";
+import { Finduser } from "../../../utils/finduser";
+import { Addfriend } from "../../../utils/Addfriend";
 
 export default function RightPanel() {
-    const { allonline, setAllonline, showallfriends, setHomeclicked, friends, userdata, homeclicked, setShowallfriends, setFriends, chatwith, setChatwith ,messagefriend ,setMessagefriend } = useContext(Homecontext);
+    const { allonline, setAllonline, showallfriends, setHomeclicked, friends, userdata, homeclicked, setShowallfriends, setFriends, chatwith, setChatwith, messagefriend, setMessagefriend } = useContext(Homecontext);
     const [addfriendclicked, setAddfriendclicked] = useState(false);
     const [pending, setPending] = useState(false);
     const [all, setAll] = useState(false);
@@ -17,8 +19,35 @@ export default function RightPanel() {
     const [firstres, setFirstres] = useState(null)
     const secondres = friends.secondres;
     const [pendingfriends, setPendingfriends] = useState(null);
+    const [searcheduser, setSearcheduser] = useState(null)
+    const [finduser, setFinduser] = useState(null)
     console.log(chatwith);
-    
+
+    const addfriendcl = async () => {
+        // console.log("clicked")
+        try {
+            const result = await Addfriend(userdata.username, searcheduser.user.username, userdata.image, searcheduser.user.image)
+            if (result) {
+                socket.emit("addfriend", {
+                    searcheduser: searcheduser.user.username,
+                    userdata: userdata.username,
+                    secondimage: searcheduser.user.image,
+                    firstimage: userdata.image
+                });
+                setFriends((prevFriends) => ({
+                    ...prevFriends,
+                    secondres: [...prevFriends.secondres, result],
+                }));
+                // console.log(friends, "byeeee")
+
+            }
+            else { console.log("already friends") }
+        }
+        catch {
+            console("error adding friend");
+        }
+
+    }
 
     useEffect(() => {
         setPendingfriends(secondres.filter(user => user.firstuser === userdata.username))
@@ -26,18 +55,20 @@ export default function RightPanel() {
         setFirstres(friends.firstres)
         console.log("change in friends")
 
-        
+
     }, [friends]);
 
-    useEffect(()=>{
+    useEffect(() => {
         socket.on("reqaccepted", (data) => {
             fetchfriends()
         })
 
         return () => {
             socket.off("reqaccepted");
+            setFinduser(null)
+            setSearcheduser(null)
         };
-    },[])
+    }, [])
 
     const remfriend = async (friend) => {
         console.log(friend, "remove friend")
@@ -52,6 +83,18 @@ export default function RightPanel() {
     const fetchfriends = async () => {
         const allfriends = await getfriends();
         setFriends(allfriends);
+    }
+
+    function keypressed(event) {
+        if (event.key === "Enter") {
+            addfriend(event)
+        }
+    }
+
+    async function addfriend(event) {
+        const data = await Finduser(finduser)
+        console.log(data)
+        setSearcheduser(data);
     }
 
     return (
@@ -82,8 +125,8 @@ export default function RightPanel() {
                                                 <div className="font-bold capitalize flex items-center">{friend.seconduser === userdata.username ? friend.firstuser : friend.seconduser}</div>
                                             </div>
                                             <div className="flex ml-auto gap-8">
-                                                <MessageSquareText className="ml-auto" 
-                                                onClick={() => { setChatwith({user:userdata.username===friend.firstuser?friend.seconduser:friend.firstuser , image: friend.seconduser === userdata.username ? friend.firstimage : friend.secondimage}); setMessagefriend(true); }} 
+                                                <MessageSquareText className="ml-auto"
+                                                    onClick={() => { setChatwith({ user: userdata.username === friend.firstuser ? friend.seconduser : friend.firstuser, image: friend.seconduser === userdata.username ? friend.firstimage : friend.secondimage }); setMessagefriend(true); }}
                                                 />
                                                 <Video className="ml-auto" />
                                                 <X className="ml-auto" onClick={() => remfriend(friend)} />
@@ -99,12 +142,37 @@ export default function RightPanel() {
                         <div className="w-65 pt-8 flex flex-col  items-center gap-4 ">
                             <h2 className="text-text-two font-semibold ">ADD A FRIEND</h2>
                             <div className="w-full p-8 flex flex-row justify-center items-center ">
-                                <input className="w-full bg-first outline-none rounded-l-md text-text-two p-3" placeholder="You can search with their Username !" />
+                                <input className="w-full bg-first outline-none rounded-l-md text-text-two p-3" placeholder="You can search with their Username !" onKeyPress={keypressed} onChange={(e) => { setFinduser(e.target.value) }} />
                                 <div className="bg-first w-3/4 flex  p-2 rounded-r-md  ">
-                                    <button className="text-text-two w-1/2 ml-auto bg-loginbutton rounded-md p-0.25 ">Send a request</button>
+                                    <button className="text-text-two w-1/2 ml-auto bg-loginbutton rounded-md p-0.25 " onClick={addfriend}>Send a request</button>
                                 </div>
                             </div>
-                            <img src={require("../../../images/Screenshot 2024-01-19 010558.png")} className="z-0" alt="" />
+                            {
+                                searcheduser ? (
+                                    <div className="flex justify-center w-full ">
+                                        {searcheduser
+                                            ? (searcheduser.message === "user found"
+                                                ? (
+                                                    <div className="w-[80%] rounded-xl flex flex-row gap-4 p-4 items-center">
+                                                        <img
+                                                            src={searcheduser.user.image ? searcheduser.user.image : require('../../../images/Avatar/1.png')}
+                                                            alt="userimage" className="w-12 h-12 rounded-full object-cover"
+                                                        />
+                                                        <div className="text-text-two font-semibold text-xl overflow-hidden">{searcheduser.user.username}</div>
+                                                        <div className="ml-auto flex gap-8">
+                                                            <MessageSquareText size={30} className="text-text-one  hover:text-text-two" />
+                                                            <Video size={30} className="text-text-one hover:text-text-two" />
+                                                            <Plus onClick={addfriendcl} size={30} className="text-text-one hover:text-text-two" />
+                                                        </div>
+                                                    </div>
+                                                )
+                                                : "User not found")
+                                            : null}
+                                    </div>
+                                ) : (
+                                    <img src={require("../../../images/Screenshot 2024-01-19 010558.png")} className="z-0" alt="" />
+                                )
+                            }
                         </div>
                     ) : (
                         <div className="w-65 pt-12 border-r border-text-one h-full flex flex-col items-center">

@@ -39,7 +39,7 @@ export default function Rightheader({ setAddfriendclicked, setShowallfriends, se
                     <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(true); setShowallfriends(false); setAddfriendclicked(false); setPending(false); setMessagefriend(false)}}>Online</button>
                     <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(false); setShowallfriends(true); setAddfriendclicked(false); setPending(false); setMessagefriend(false) }}>All</button>
                     <button className="text-text-one hover:text-text-two hover:bg-white hover:bg-opacity-5 pl-2 pr-2 rounded-md" onClick={() => { setAllonline(false); setShowallfriends(false); setAddfriendclicked(false); setPending(true); setMessagefriend(false) }}>Pending</button>
-                    <button className="w-24 bg-red-900 rounded-md pl-2 pr-2 text-text-two " onClick={() => { setAddfriendclicked(true); setShowallfriends(false); setAllonline(false) }}>Add friend</button>
+                    <button className="w-24 bg-red-900 rounded-md pl-2 pr-2 text-text-two " onClick={() => { setAddfriendclicked(true); setShowallfriends(false); setAllonline(false);setMessagefriend(false)}}>Add friend</button>
                     <Bell className="flex ml-auto text-text-one hover:text-text-two " onClick={() => { notification ? setNotification(false) : setNotification(true) }} />
                     {
                         filtered ? (filtered.length > 0 && <div className="w-2 h-2 bg-red-600 rounded-full relative right-5 bottom-2"></div>) : null
