@@ -3,6 +3,7 @@ import Qrgenerator from "../../utils/Qrgenerator";
 import { useNavigate } from "react-router-dom";
 import { handleLogin } from '../../utils/loginhandler'
 import { socket } from "../socket";
+import { ReactComponent as CircleSvg } from "../../images/loading2.svg";
 
 export default function LoginForm() {
     const [signin, setSignin] = useState(false);
@@ -10,6 +11,7 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     const [screensize, setScreensize] = useState(true);
     const navigate = useNavigate();
+    const [loginclicked, setLoginclicked] = useState(false);
     useEffect(() => {
         setScreensize(window.innerWidth >= 600);
     })
@@ -19,11 +21,12 @@ export default function LoginForm() {
     };
 
     const handlelogin = async () => {
+        setLoginclicked(true)
         const result = await handleLogin(username, password);
-    
+
         if (result) {
             socket.connect()
-            socket.emit("login",result);
+            socket.emit("login", result);
             navigate('/home')
         }
         else console.log("could not login due to some issue");
@@ -48,11 +51,19 @@ export default function LoginForm() {
                             <p className="text-text-three text-xs ">We're so excited to see you again!</p>
                             <div className="w-3/4 h-2/3 flex flex-col justify-center gap-2 items-start mt-6">
                                 <p className="flex flex-row text-text-three text-0.8r font-bold">EMAIL OR PHONE NUMBER <p className="text-red-500 font-light"> *</p></p>
-                                <input type="text" className="p-0.8 w-full rounded-sm text-xs bg-inputfield " placeholder="Enter Email or Phone number" style={{ outline: 'none' }} onChange={(e) => setUsername(e.target.value)} />
+                                <input type="text" className="p-4 w-full rounded-sm text-s bg-inputfield " placeholder="Enter Email or Phone number" style={{ outline: 'none' }} onChange={(e) => setUsername(e.target.value)} />
                                 <p className="text-text-three  flex felx-row text-0.8r font-bold">PASSWORD <p className="text-red-500 font-light"> *</p></p>
-                                <input type="password" className="rounded-sm w-full text-black p-0.8 text-xs bg-inputfield" placeholder="Enter your password" style={{ outline: 'none' }} onChange={(e) => setPassword(e.target.value)} />
+                                <input type="password" className="rounded-sm w-full text-black p-4 text-s bg-inputfield" placeholder="Enter your password" style={{ outline: 'none' }} onChange={(e) => setPassword(e.target.value)} />
                                 <button className="text-forgotbutton text-0.8r item-left">Forgot your password?</button>
-                                <button className="bg-loginbutton w-full h-8 rounded-sm text-slate-100 hover:bg-loginbuttonhover" onClick={handlelogin}>Login</button>
+                                <button className="bg-loginbutton w-full rounded-sm  text-slate-100 hover:bg-loginbuttonhover h-12" onClick={handlelogin}>
+                                    {loginclicked ? (
+                                        <div className="flex justify-center">
+                                            <CircleSvg className="w-12 h-12 text-white" />
+                                        </div>
+                                    ) : (
+                                        <div>Login</div>
+                                    )}
+                                </button>
                                 <button className="text-o.8r text-forgotbutton" onClick={() => navigate('/register')}>Create an account</button>
                             </div>
                         </li>

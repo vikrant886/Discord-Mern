@@ -3,6 +3,8 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ImageContainer from "../components/imagecontainer/imagecontainer";
+import { ReactComponent as CircleSvg } from "../images/loading2.svg";
+import person from "../images/person.png"
 
 export default function Register() {
     const [username, setUsername] = useState("");
@@ -10,6 +12,7 @@ export default function Register() {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const [image, setImage] = useState()
+    const [registerclicked, setRegisterclicked] = useState(false);
     const [value, setValue] = useState({
         startDate: new Date(),
         endDate: new Date().setMonth(11)
@@ -23,8 +26,9 @@ export default function Register() {
     };
 
     function register() {
+        setRegisterclicked(true)
         console.log(process.env.REACT_APP_HOST);
-        axios.post(process.env.REACT_APP_HOST+'user/register', {
+        axios.post(process.env.REACT_APP_HOST + 'user/register', {
             "username": username,
             "email": mail,
             "name": name,
@@ -50,12 +54,12 @@ export default function Register() {
                 backgroundImage: `url(${require("../images/OIG.jpeg")})`,
             }}
         >
-            <div className="h-[80%] bg-third w-63 flex flex-col rounded-md ">
-                <div className="w-full h-16 p-4 flex justify-center items-center">
+            <div className="h-[80%] p-2 bg-third w-63 flex flex-col rounded-md ">
+                <div className="w-full h-16 flex justify-center items-center">
                     <h1 className="text-white font-bold text-2xl">Create an Account</h1>
 
                 </div>
-                <ImageContainer onImagechange={(e) => { setImage(e) }} />
+                <ImageContainer currimage={person} onImagechange={(e) => { setImage(e) }} />
 
                 <div className="h-full  w-full flex  justify-center">
                     <div className="w-85 h-full flex gap-3 flex-col ">
@@ -69,7 +73,15 @@ export default function Register() {
                         <input type="password" className="rounded-sm w-full  p-0.8 text-xs bg-first text-text-three" placeholder="Enter your password" style={{ outline: 'none' }} onChange={(e) => setPassword(e.target.value)} />
                         <p className="text-text-three  flex felx-row text-0.8r font-bold">DATE OF BIRTH <p className="text-red-500 font-light"> *</p></p>
                         <Datepicker value={value} onChange={handleValueChange} />
-                        <button className="w-full p-0.8 mt-4 rounded-sm bg-loginbutton" onClick={register}>REGISTER</button>
+                        <button className="w-full p-4 mt-4 rounded-sm bg-loginbutton" onClick={register}>
+                            {registerclicked ? (
+                                <div className="flex justify-center">
+                                    <CircleSvg className="w-8 h-8 text-white" />
+                                </div>
+                            ) : (
+                                <div>Register</div>
+                            )}
+                        </button>
                         <button onClick={() => navigate('/')} className="text-loginbutton font-light text-0.8r">Already have an account?</button>
                     </div>
                 </div>

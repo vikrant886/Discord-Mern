@@ -25,6 +25,9 @@ export default function Rightheader({ setAddfriendclicked, setShowallfriends, se
             const fdata = new Set(data)
             setFiltered(d => d.concat(Array.from(fdata).filter((user)=>user.searcheduser===userdata.username)))
         })
+        return(()=>{
+            socket.off("friendreq")
+        })
     },[socket])
 
     return (

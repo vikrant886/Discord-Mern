@@ -29,6 +29,11 @@ export default function Home() {
     const [chatwith, setChatwith] = useState({user:"general",image:null});
     const [messagefriend, setMessagefriend] = useState(false);
     const [message, setMessage] = useState([]);
+    const [serverimage,setServerimage] = useState();
+    function randInt(min, max, exclude) {
+        let num = Math.floor(Math.random() * (max - min + 1)) + min;
+        return num === exclude ? randInt(min, max, exclude) : num;
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,6 +46,11 @@ export default function Home() {
                 const fetchedservers = await getservers();
                 console.log(fetchedservers);
                 setAllservers(fetchedservers.servers);
+                const s_image=[]
+                fetchedservers.servers.forEach((d) => {
+                    s_image.push(randInt(1,13,4))
+                });
+                setServerimage(s_image)
 
                 const allfriends = await getfriends();
                 console.log(allfriends, "homefetch");
@@ -100,6 +110,7 @@ export default function Home() {
                             setAllonline,
                             showallfriends,
                             setShowallfriends,
+                            serverimage,
                         }}
                     >
                         <LeftPanel />

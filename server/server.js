@@ -24,7 +24,7 @@ app.get("/hello", (req, res) => {
 const server = http.createServer(app); // Create an HTTP server
 const io = socketIo(server, {
   cors: {
-    origin: 'https://discord-mern.vercel.app', // Replace with the origin of your React app
+    origin: 'http://localhost:3000', // Replace with the origin of your React app
     methods: ['GET', 'POST'],
   },
 });
@@ -35,6 +35,7 @@ const allusers = new Map()
 const servermap = new Map()
 const server_user = new Map();
 const pmessage = new Map()
+const userimage = new Map()
 
 io.on("connection", (socket) => {
   console.log("user connected", socket.id);
@@ -71,24 +72,31 @@ io.on("connection", (socket) => {
 
   socket.on("servercreated", (data) => {
     const { servername, userdata } = data
-    const user = []
-    user.push(userdata)
-    server_user.set(servername, user)
+    if (server_user.has(userdata.username)) {
+      const d = server_user.get(userdata.username);
+      d.push(servername);
+      server_user.set(userdata.username, d);
+    }
+    else {
+      server_user.set(userdata.username, [servername]);
+    }
+    //
+    socket.join(servername);
 
   })
 
   socket.on("joinserver", (data) => {
     const { servername, userdata } = data;
-    if (server_user.has(servername)) {
-      const seconduser = server_user.get(servername);
-      seconduser.push(userdata);
-      server_user.set(servername, seconduser);
+    if (server_user.has(userdata.username)) {
+      const seconduser = server_user.get(userdata.username);
+      seconduser.push(servername);
+      server_user.set(userdata.username, seconduser);
     } else {
-      server_user.set(servername, [userdata]);
+      server_user.set(userdata.username, [servername]);
     }
   });
 
-  socket.on("message",(data)=>{
+  socket.on("message", (data) => {
     console.log("got message and sending ");
     // console.log(data)
     const sender = data.username
@@ -110,22 +118,22 @@ io.on("connection", (socket) => {
     pmessage.get(sender)[receiver].push(data);
     // console.log(pmessage.get(sender)[receiver])
     console.log(allusers.get(data.to))
-    socket.to(allusers.get(data.to)).emit("rec_message",data);
+    socket.to(allusers.get(data.to)).emit("rec_message", data);
   })
 
-  socket.on("getmessage",({sender,receiver})=>{
-    console.log(sender,receiver)
+  socket.on("getmessage", ({ sender, receiver }) => {
+    console.log(sender, receiver)
     console.log("got mess req , fetching messages")
     let message;
-    if(pmessage.get(sender)){
-      message=pmessage.get(sender)[receiver]
+    if (pmessage.get(sender)) {
+      message = pmessage.get(sender)[receiver]
     }
-    else{
-      message=[]
+    else {
+      message = []
     }
     // console.log(message)
     console.log(allusers.get(sender))
-    io.to(allusers.get(sender)).emit("message",message)
+    io.to(allusers.get(sender)).emit("message", message)
   })
 
   socket.on("login", (data) => {
@@ -135,23 +143,23 @@ io.on("connection", (socket) => {
     io.emit('allonlineuser', Array.from(onlineusersmap.values()));
   })
 
-  socket.on("registeronsocket",(data)=>{
+  socket.on("registeronsocket", (data) => {
     console.log("user registered on socket")
-    allusers.set(data.username,socket.id)
+    allusers.set(data.username, socket.id)
   })
 
   socket.on("fecthalluser", (data) => {
     io.emit('allonlineuser', Array.from(onlineusersmap.values()));
   })
 
-  socket.on("chessreqcreated",(data)=>{
+  socket.on("chessreqcreated", (data) => {
     console.log("chessreq created and sent")
-    socket.to(allusers.get(data.user)).emit("chessreq",data);
+    socket.to(allusers.get(data.user)).emit("chessreq", data);
   })
 
-  socket.on("chessreqacc",(data)=>{
+  socket.on("chessreqacc", (data) => {
     console.log(data.from)
-    socket.to(allusers.get(data.from)).emit("chessacc",data);
+    socket.to(allusers.get(data.from)).emit("chessacc", data);
   })
 });
 mongoose

@@ -14,7 +14,7 @@ import axios from "axios";
 // import { serverclicked } from "../../../utils/serverclicked";
 
 export default function LeftPanel() {
-    const { allservers, setAllservers } = useContext(Homecontext)
+    const { allservers, setAllservers ,serverimage } = useContext(Homecontext)
     const [addServer, setAddServer] = useState(false);
     const { createownserver, setCreateownserver } = useContext(Homecontext);
     const { userdata, setUserdata } = useContext(Homecontext)
@@ -25,12 +25,12 @@ export default function LeftPanel() {
     const { friendsectionselected, setFriendsectionselected, setAllonline, setShowallfriends, messagefriend, setMessagefriend } = useContext(Homecontext)
     const [friendchange, setFriendchange] = useState(false);
     const [modaltype, setModaltype] = useState("");
-    const [chess, setChess] = useState({val:false,data:""});
-
+    const [chess, setChess] = useState({ val: false, data: "" });
     const navigate = useNavigate()
 
+
     useEffect(() => {
-        socket.on("chessacc",(data)=>{
+        socket.on("chessacc", (data) => {
             // alert(data);
         })
         socket.on("chessreq", (data) => {
@@ -38,30 +38,30 @@ export default function LeftPanel() {
             let res = confirm(`${data.from} sent you a CHESS challenge`);
             /* eslint-enable no-restricted-globals */
             console.log("new chess req")
-            if(res){
-                validate({room:data.roomid,from:data.from})
+            if (res) {
+                validate({ room: data.roomid, from: data.from })
             }
-            else{
+            else {
                 console.log("req rejected")
             }
         });
 
-        const validate=async({room,from})=>{
+        const validate = async ({ room, from }) => {
             try {
                 const response = await axios.post(
-                  "https://chessable-backend-u08b.onrender.com/validate",
-                  {
-                    room,
-                  }
+                    "https://chessable-backend-u08b.onrender.com/validate",
+                    {
+                        room,
+                    }
                 );
                 console.log(response);
                 if (response.data.status === true) {
-                  setChess({val:true,data:room});
-                  socket.emit("chessreqacc",{from:from})
+                    setChess({ val: true, data: room });
+                    socket.emit("chessreqacc", { from: from })
                 }
-              } catch (e) {
+            } catch (e) {
                 console.error("join room request error!");
-              }
+            }
         }
 
 
@@ -70,7 +70,6 @@ export default function LeftPanel() {
             socket.off("chessacc");
         };
     }, []);
-
 
     function buttonclicked(server) {
         setMessagefriend(false);
@@ -127,7 +126,7 @@ export default function LeftPanel() {
                     <button onClick={() => buttonclicked(server)} href="##" key={index}>
                         <img
                             className="w-12 h-12 rounded-full hover:rounded-xl duration-1000 transition ease-in-out"
-                            src={server.serverimage}  // Use serverimage as the source
+                            src={server.serverimage ? server.serverimage : require(`../../../images/Avatar/${serverimage[index]}.png`)}
                             alt={`Server ${index + 1}`}
                         />
                     </button>
@@ -135,7 +134,7 @@ export default function LeftPanel() {
             </div>
             <div className="w-4/5 h-0.5 bg-slate-600"></div>
             <div className=" h-full w-full flex flex-col items-center">
-                <button onClick={() => { setChess({val:!chess.val,data:""}) }}>
+                <button onClick={() => { setChess({ val: !chess.val, data: "" }) }}>
                     <img src="https://th.bing.com/th/id/OIP.Kmbf3tCX57OyB69xPGMd0AHaHa?rs=1&pid=ImgDetMain" className="rounded-full size-12" alt="" />
                 </button>
             </div>

@@ -48,7 +48,7 @@ export default function ImageContainer({currimage,setImage}) {
                     <img
                         src={temp}
                         alt="Uploaded Image"
-                        className="bg-white object-contain"
+                        className=" object-contain"
                     />
                 ) : (
                     <></>
