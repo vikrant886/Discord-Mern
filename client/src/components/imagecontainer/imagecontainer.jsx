@@ -19,13 +19,11 @@ export default function ImageContainer({currimage,setImage}) {
                 300, // Max width
                 300, // Max height
                 'JPEG', // Compression format
-                0,  // Quality
+                20,  // Quality
                 0,   // Rotation
                 (uri) => {
                     setTemp(uri)
-                    if(setImage!=null){
-                        setImage(uri); 
-                    }
+                    setImage(uri)
                 },
                 'base64' 
             );
@@ -48,7 +46,7 @@ export default function ImageContainer({currimage,setImage}) {
                     <img
                         src={temp}
                         alt="Uploaded Image"
-                        className=" object-contain"
+                        className="w-20 h-20 object-cover"
                     />
                 ) : (
                     <></>

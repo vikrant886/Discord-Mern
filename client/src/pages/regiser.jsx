@@ -27,7 +27,6 @@ export default function Register() {
 
     function register() {
         setRegisterclicked(true)
-        console.log(process.env.REACT_APP_HOST);
         axios.post(process.env.REACT_APP_HOST + 'user/register', {
             "username": username,
             "email": mail,
@@ -59,7 +58,7 @@ export default function Register() {
                     <h1 className="text-white font-bold text-2xl">Create an Account</h1>
 
                 </div>
-                <ImageContainer currimage={person} onImagechange={(e) => { setImage(e) }} />
+                <ImageContainer currimage={person} setImage={setImage} />
 
                 <div className="h-full  w-full flex  justify-center">
                     <div className="w-85 h-full flex gap-3 flex-col ">
