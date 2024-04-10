@@ -24,7 +24,7 @@ export default function Midfooter() {
                 </div>
             </div>
             <div className="z-40 hover:bg-third bg-second flex items-center gap-3 p-4" onClick={() => setSetting(!setting)}>
-                <img src={userdata.image} className="w-8 h-8 rounded-full" alt="" />
+                <img src={userdata.image} className="w-8 object-cover h-8 rounded-full" alt="" />
                 <div className="font-semibold text-text-two">{userdata.name}</div>
             </div>
         </>
