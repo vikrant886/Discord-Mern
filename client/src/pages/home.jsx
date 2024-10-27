@@ -9,6 +9,7 @@ import Loading from "./loading";
 import { getstatus } from "../utils/onlinestatus";
 import { socket } from "../components/socket";
 import CallModal from "../components/videoCall/callinitiateModal";
+import Confirm from "../utils/Confirm";
 
 export default function Home() {
     const [userdata, setUserdata] = useState("");
@@ -37,6 +38,8 @@ export default function Home() {
     const [webcamActive, setWebcamActive] = useState(false);
     const localRef = useRef('null');
     const remoteRef = useRef('null');
+    const [showConfirm, setShowConfirm] = useState(null);
+    const [confirm, setConfirm] = useState(false);
     // const pc = useRef(null); // Define pc at the top level
 
     function randInt(min, max, exclude) {
@@ -77,16 +80,16 @@ export default function Home() {
     useEffect(() => {
         // Handle socket events for offers and answers
         socket.on('offer', async (data) => {
-            const res = confirm("You have an incoming video call. Do you want to accept?");
-            if (res) {
-                const roomId = data.roomId;
-                socket.emit("join", { roomId });
+            setShowConfirm(data);
+            // if (res) {
+            //     const roomId = data.roomId;
+            //     socket.emit("join", { roomId });
 
-                // Set the remote description with the received offer
-                await handleOffer(data);
-            } else {
-                socket.emit("decline", { roomId: data.roomId });
-            }
+            //     // Set the remote description with the received offer
+            //     await handleOffer(data);
+            // } else {
+            //     socket.emit("decline", { roomId: data.roomId });
+            // }
         });
 
         pc.current.onicecandidate = (event) => {
@@ -152,6 +155,25 @@ export default function Home() {
         }
     };
 
+    const handleConfirm = async () => {
+        if (showConfirm) {
+            const roomId = showConfirm.roomId;
+            setRoomId(roomId); // Set roomId
+            socket.emit("join", { roomId }); // Inform server to join the room
+
+            // Handle the incoming offer
+            await handleOffer(showConfirm); // Accept the call and handle the offer
+            setShowConfirm(false); // Close the confirm modal
+        }
+    };
+
+    const handleDecline = () => {
+        if (showConfirm) {
+            socket.emit("decline", { roomId: showConfirm.roomId }); // Inform server to decline the call
+            setShowConfirm(null); // Close the confirm modal
+        }
+    };
+
 
 
     return (
@@ -199,6 +221,9 @@ export default function Home() {
                             serverimage,
                         }}
                     >
+                        {showConfirm && (
+                            <Confirm text={"You have an incoming video call. Do you want to accept?"} onConfirm={handleConfirm} onDecline={handleDecline} />
+                        )}
                         {videoCall && <CallModal localRef={localRef} remoteRef={remoteRef} pc={pc} roomId={roomId} setRoomId={setRoomId} setWebcamActive={setWebcamActive} webcamActive={webcamActive} />}
                         <LeftPanel />
                         <MidPanel />

@@ -93,7 +93,7 @@ export default function CallModal({ pc, setWebcamActive, webcamActive, setRoomId
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex justify-center items-center z-40">
             {
                 !webcamActive ? (
                     <div className="w-[20%] rounded-md h-[40%] bg-third overflow-hidden p-2 flex flex-col items-center">
