@@ -9,9 +9,10 @@ import { getfriends } from "../../../utils/getfriends";
 import { removefriend } from "../../../utils/Addfriend";
 import { Finduser } from "../../../utils/finduser";
 import { Addfriend } from "../../../utils/Addfriend";
+import CallModal from "../../videoCall/callinitiateModal";
 
 export default function RightPanel() {
-    const { allonline, setAllonline, showallfriends, setHomeclicked, friends, userdata, homeclicked, setShowallfriends, setFriends, chatwith, setChatwith, messagefriend, setMessagefriend } = useContext(Homecontext);
+    const {setVideoCall, allonline, setAllonline, showallfriends, setHomeclicked, friends, userdata, homeclicked, setShowallfriends, setFriends, chatwith, setChatwith, messagefriend, setMessagefriend } = useContext(Homecontext);
     const [addfriendclicked, setAddfriendclicked] = useState(false);
     const [pending, setPending] = useState(false);
     const [all, setAll] = useState(false);
@@ -128,7 +129,9 @@ export default function RightPanel() {
                                                 <MessageSquareText className="ml-auto"
                                                     onClick={() => { setChatwith({ user: userdata.username === friend.firstuser ? friend.seconduser : friend.firstuser, image: friend.seconduser === userdata.username ? friend.firstimage : friend.secondimage }); setMessagefriend(true); }}
                                                 />
-                                                <Video className="ml-auto" />
+                                                <button onClick={()=>setVideoCall(true)}>
+                                                    <Video  className="ml-auto" />
+                                                </button>
                                                 <X className="ml-auto" onClick={() => remfriend(friend)} />
                                             </div>
                                         </div>

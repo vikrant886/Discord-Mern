@@ -161,6 +161,50 @@ io.on("connection", (socket) => {
     console.log(data.from)
     socket.to(allusers.get(data.from)).emit("chessacc", data);
   })
+
+  // for video calls
+
+  socket.on('join', ({roomId}) => {
+    console.log(roomId)
+    socket.join(roomId);
+    console.log(`User with ID ${socket.id} joined room: ${roomId}`);
+  });
+
+  socket.on('offer', (data) => {
+    const {offer,roomId,user}=data
+    console.log(roomId)
+    console.log(allusers.get(data.user))
+    socket.to(allusers.get(data.user)).emit('offer', {
+      offer,
+      roomId,
+    });
+
+    // socket.to(data.roomId).emit('offer', {
+    //   offer: data.offer,
+    //   socketId: socket.id
+    // });
+  });
+
+  socket.on('answer', ({answer,roomId}) => {
+    // console.log(roomId,answer)
+    socket.to(roomId).emit('answer', {
+      answer,
+      roomId,
+    });
+  });
+
+  socket.on('ice-candidate', (data) => {
+    // console.log("recieved ice-can",data)
+    socket.to(data.roomId).emit('ice-candidate', {
+      candidate: data.candidate,
+      roomId:data.roomId
+    });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected: ' + socket.id);
+  });
+
 });
 mongoose
   .connect(process.env.DATABASE_URL)

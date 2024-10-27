@@ -9,12 +9,13 @@ import { handleLogout } from "../../../utils/loginhandler";
 import Chessmodal from "../../chessmodal/chessmodal";
 import { socket } from "../../socket";
 import axios from "axios";
+import { handleOffer,handleAnswer,handleIceCandidate } from "../../../utils/VideoCallFunction/videoCallExchange";
 // import { getservers } from "../../../utils/getservers";
 // import { getfriends } from "../../../utils/getfriends";
 // import { serverclicked } from "../../../utils/serverclicked";
 
 export default function LeftPanel() {
-    const { allservers, setAllservers ,serverimage } = useContext(Homecontext)
+    const { allservers, setAllservers, serverimage } = useContext(Homecontext)
     const [addServer, setAddServer] = useState(false);
     const { createownserver, setCreateownserver } = useContext(Homecontext);
     const { userdata, setUserdata } = useContext(Homecontext)
@@ -27,7 +28,6 @@ export default function LeftPanel() {
     const [modaltype, setModaltype] = useState("");
     const [chess, setChess] = useState({ val: false, data: "" });
     const navigate = useNavigate()
-
 
     useEffect(() => {
         socket.on("chessacc", (data) => {
